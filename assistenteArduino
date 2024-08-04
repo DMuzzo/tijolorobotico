@@ -1,0 +1,41 @@
+String inputString = "";
+bool stringComplete = false;
+
+void setup(){
+  //Inicializando o serial
+  Serial.begin(9600);
+  //Reservar 200 bytes para o inputString
+  inputString.reserve(200);
+
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop(){
+  //imprimir a string quando uma linha nova chegar
+  if(stringComplete){
+    Serial.print("Tijolo Robotico Falando: ");
+    Serial.print(inputString);
+    // limpando a string
+    if(inputString.startsWith("Ligar")){
+      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN)); //toggle
+    }
+    inputString = "";
+    stringComplete = false;
+  }
+
+  }
+
+
+void serialEvent() {
+  while (Serial.available()){
+    //pegar nova byte
+    char inChar = (char)Serial.read();
+    // adicionando para o inputString
+    inputString += inChar;
+    // Se o caracter recebido for uma nova linha, defina um sinalizador para o loop principal e
+    // faça algo sobre isso
+    if(inChar == '\n') {
+      stringComplete = true;
+    }
+  }
+}
