@@ -1,0 +1,23 @@
+#pip install SpeechRecognition - Foi instalado pelo console do Spyder
+# Necessario instalar o pip install PyAdudio - Instalado pelo console
+import speech_recognition as sr 
+
+
+r = sr.Recognizer()
+
+mic = sr.Microphone()
+
+with mic as fonte:
+    r.adjust_for_ambient_noise(fonte)
+    print("Fale alguma coisa")
+    audio = r.listen(fonte)
+    print("Enviando para Reconhecimento")
+    try:
+        text = r.recognize_google(audio, language = 'pt-BR')
+        print("Voce disse: {}".format(text))
+    except:
+        print("Nao entendi o que voce disse")
+    
+    
+        
+        
